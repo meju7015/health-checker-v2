@@ -36,7 +36,7 @@ export class TaskService {
                 pretext: '<!channel> *웹/데이터베이스 헬스 체커 v4.0*',
                 text:
                   checker.name +
-                  '서버 상태가 변경 되었습니다.' +
+                  ' 상태가 변경 되었습니다.' +
                   '\n*HOST* : ' +
                   checker.url +
                   '\t\t*현재상태* : ' +
