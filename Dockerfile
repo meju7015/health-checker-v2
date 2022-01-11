@@ -27,6 +27,6 @@ ENV HOST 0.0.0.0
 
 EXPOSE 3000
 
-RUN npm run test && npm run build
+RUN npm install && npm run test && npm run build
 
 ENTRYPOINT ["npm", "run", "start"]
