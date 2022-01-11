@@ -1,0 +1,53 @@
+name: Stage workflow
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Chaeckout sorce code.
+        uses: actions/checkout@v2
+        with:
+          ref: 'stage'
+
+      - name: Get current time
+        uses: srfrnk/current-time@master
+        id: current-time
+        with:
+          format: YYYYMMDDHHmmss
+
+      - name: Configure AWS
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build, tag, and push image to Amazon ECR
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: health-checker
+          IMAGE_TAG: ${{ steps.current-time.outputs.formattedTime }} #${{ github.sha }}
+        run: |
+          docker build --build-arg DB_HOST="${{ secrets.DB_HOST }}" \ 
+            --build-arg DB_USER="${{ secrets.DB_USER }}" \ 
+            --build-arg DB_PASSWORD="${{ secrets.DB_PASSWORD }}" \
+            --build-arg DB_SYNC="true" \
+            -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+      - name: Remote SSH Commands
+        uses: fifsky/ssh-action@v0.0.5
+        with:
+          command: |
+            ~/scripts/ecr-docker-runner.sh health-checker-v2 ${{ steps.current-time.outputs.formattedTime }} 3999:3000
+          host: ${{ secrets.STAGE_HOST_IP }}
+          user: ubuntu
+          key: ${{ secrets.STAGE_PRIVATE_KEY }}
+          args: "-tt"
