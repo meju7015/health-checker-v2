@@ -57,7 +57,7 @@ describe('CheckerService', () => {
   describe('findAll', () => {
     it('should be find', async () => {
       jest
-        .spyOn(checkerRepository.createQueryBuilder(), 'getRawMany')
+        .spyOn(checkerRepository.createQueryBuilder(), 'getMany')
         .mockResolvedValue([]);
 
       const result = await service.findAll();

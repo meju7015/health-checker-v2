@@ -3,18 +3,21 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { HealthController } from './health/health.controller';
 import configurations from './config/configurations';
 import { TerminusModule } from '@nestjs/terminus';
 import { HttpModule } from '@nestjs/axios';
 import { ScheduleModule } from '@nestjs/schedule';
-import { HealthService } from './health/health.service';
+import { TaskModule } from './task/task.module';
+import slackConfig from './config/slack.config';
+import { SlackModule } from 'nestjs-slack-webhook';
+import { NotifyService } from './notify/notify.service';
+import { NotifyModule } from './notify/notify.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [configurations],
+      load: [configurations, slackConfig],
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
@@ -31,12 +34,19 @@ import { HealthService } from './health/health.service';
         autoLoadEntities: true,
       }),
     }),
+    SlackModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (config) => config.get('slack'),
+    }),
     ScheduleModule.forRoot(),
     CheckerModule,
     HttpModule,
     TerminusModule,
+    TaskModule,
+    NotifyModule,
   ],
-  controllers: [AppController, HealthController],
-  providers: [HealthService],
+  controllers: [AppController],
+  providers: [NotifyService],
 })
 export class AppModule {}

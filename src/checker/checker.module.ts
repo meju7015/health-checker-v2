@@ -8,5 +8,6 @@ import { Checker } from './entities/checker.entity';
   imports: [TypeOrmModule.forFeature([Checker])],
   controllers: [CheckerController],
   providers: [CheckerService],
+  exports: [CheckerService],
 })
 export class CheckerModule {}

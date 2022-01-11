@@ -1,0 +1,9 @@
+version: '2'
+
+services:
+  health-checker:
+    image: node:14-alpine
+    container_name: health-checker
+    expose:
+      - 3999:3000
+

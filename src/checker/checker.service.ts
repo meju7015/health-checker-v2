@@ -11,11 +11,11 @@ export class CheckerService {
     private checkerRepository: Repository<Checker>,
   ) {}
 
-  findAll(): Promise<Checker[]> {
-    return this.checkerRepository
+  async findAll(): Promise<Checker[]> {
+    return await this.checkerRepository
       .createQueryBuilder('checker')
       .where('status = :status', { status: CheckerStatus.RUN })
-      .getRawMany();
+      .getMany();
   }
 
   findOne(checkerId: number): Promise<Checker> {
