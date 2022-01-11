@@ -3,7 +3,12 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { HealthController } from './health/health.controller';
 import configurations from './config/configurations';
+import { TerminusModule } from '@nestjs/terminus';
+import { HttpModule } from '@nestjs/axios';
+import { ScheduleModule } from '@nestjs/schedule';
+import { HealthService } from './health/health.service';
 
 @Module({
   imports: [
@@ -26,8 +31,12 @@ import configurations from './config/configurations';
         autoLoadEntities: true,
       }),
     }),
+    ScheduleModule.forRoot(),
     CheckerModule,
+    HttpModule,
+    TerminusModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, HealthController],
+  providers: [HealthService],
 })
 export class AppModule {}
