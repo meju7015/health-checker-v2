@@ -132,4 +132,7 @@ describe('CheckerService', () => {
       expect(result).toEqual('checker is stopped');
     });
   });
+
+  it.todo('startSchedule -> RUN 으로 변경됐는지 ?');
+  it.todo('stopSchedule -> STOP 으로 변경됐는지 ?');
 });

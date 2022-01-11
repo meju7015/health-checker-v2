@@ -5,7 +5,6 @@ import {
   HealthCheckService,
   HttpHealthIndicator,
 } from '@nestjs/terminus';
-import { CheckerService } from '../checker/checker.service';
 
 @Injectable()
 export class HealthService {
