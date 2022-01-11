@@ -42,7 +42,7 @@ jobs:
         uses: fifsky/ssh-action@v0.0.5
         with:
           command: |
-            ~/scripts/ecr-docker-runner.sh health-checker-v2 ${{ steps.current-time.outputs.formattedTime }} 3999:3000
+            ~/scripts/ecr-docker-runner.sh health-checker ${{ steps.current-time.outputs.formattedTime }} 3999:3000
           host: ${{ secrets.STAGE_HOST_IP }}
           user: ubuntu
           key: ${{ secrets.STAGE_PRIVATE_KEY }}
