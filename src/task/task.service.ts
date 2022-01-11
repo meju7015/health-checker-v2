@@ -29,7 +29,6 @@ export class TaskService {
         .check([() => this.http.pingCheck(checker.name, checker.url)])
         .catch((error) => {
           this.logger.debug(error);
-          console.log(error.status);
           this.notifyService.notify({
             attachments: [
               {
