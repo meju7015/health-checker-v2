@@ -6,10 +6,10 @@ POST http://localhost:3000/checker
 Content-Type: application/json
 
 {
-  "name":"test site",
-  "url": "https://naver.com",
-  "allowStatus":"[200]",
-  "disallowStatus": "[\"*\"]",
-  "chanel":"[\"slack\"]",
+  "name":"테스트 사이트",
+  "url": "https://naver.com1",
+  "allowStatus": [200],
+  "disallowStatus": ["*"],
+  "chanel":["slack"],
   "isReset": false
 }
