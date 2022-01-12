@@ -72,7 +72,7 @@ export class CheckerService {
       return 'already stopped';
     }
 
-    checker.status = CheckerStatus.RUN;
+    checker.status = CheckerStatus.STOP;
 
     try {
       await this.checkerRepository.save(checker);

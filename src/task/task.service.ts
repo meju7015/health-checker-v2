@@ -19,7 +19,7 @@ export class TaskService {
     private notifyService: NotifyService,
   ) {}
 
-  @Cron('*/10 * * * * *')
+  @Cron('0 * * * * *')
   @HealthCheck()
   async handleCron() {
     const checkers = await this.checkerService.findAll();
