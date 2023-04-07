@@ -25,7 +25,7 @@ export class TaskService {
     const checkers = await this.checkerService.findAll();
 
     checkers.map(async (checker) => {
-      console.log('Running :: ', checker);
+      console.log('Running :: ', checker.id);
 
       await this.health
         .check([() => this.http.pingCheck(checker.name, checker.url)])
@@ -34,7 +34,10 @@ export class TaskService {
 
           this.notifyService.notify({
             checker,
-            response: error.response,
+            response: {
+              statusText: 500,
+              ...error.response
+            },
           });
         });
     });
