@@ -28,26 +28,4 @@ describe('NotifyService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
-
-  describe('notify()', () => {
-    it('should notify to slack', async () => {
-      const requestNotify: IncomingWebhookSendArguments = {
-        text: '(test-message) testing..',
-      };
-      const resultNotify: IncomingWebhookResult = {
-        text: 'ok',
-      };
-      jest
-        .spyOn(service, 'notify')
-        .mockImplementation(
-          async (arg: IncomingWebhookSendArguments) => resultNotify,
-        );
-
-      const result = await service.notify(requestNotify);
-
-      expect(result).toEqual(resultNotify);
-      expect(service.notify).toHaveBeenCalledTimes(1);
-      expect(service.notify).toHaveBeenCalledWith(requestNotify);
-    });
-  });
 });
