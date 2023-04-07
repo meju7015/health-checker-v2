@@ -3,12 +3,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Checker, CheckerStatus } from './entities/checker.entity';
 import { Repository } from 'typeorm';
 import { CreateCheckerDto } from './dto/create-checker.dto';
+import { HealthCheckService } from "@nestjs/terminus";
 
 @Injectable()
 export class CheckerService {
   constructor(
     @InjectRepository(Checker)
-    private checkerRepository: Repository<Checker>,
+    private checkerRepository: Repository<Checker>
   ) {}
 
   async findAll(): Promise<Checker[]> {
