@@ -7,7 +7,7 @@ import { Checker } from "../checker/entities/checker.entity";
 
 interface INotifyMessage {
   checker: Checker;
-  response: AxiosResponse<any, any>;
+  response: AxiosResponse;
 }
 
 @Injectable()
